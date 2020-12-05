@@ -25,10 +25,13 @@ func main() {
 
 	readFile.Close()
 
+	var personData string
+
 	for _, line := range fileTextLines {
-		fmt.Println(line)
+		personData = personData + " " + line
 		if line == "" {
-			fmt.Println("New Person!")
+			fmt.Println(personData)
+			personData = ""
 		}
 	}
 }
