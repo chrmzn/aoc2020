@@ -31,6 +31,13 @@ func main() {
 		personData = personData + " " + line
 		if line == "" {
 			fmt.Println(personData)
+			kvCount := 0
+			for _, char := range personData {
+				if char == ':' {
+					kvCount++
+				}
+			}
+			fmt.Printf("Total KV Pairs: %d\n", kvCount)
 			personData = ""
 		}
 	}
