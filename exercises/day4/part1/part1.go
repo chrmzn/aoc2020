@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -26,6 +27,7 @@ func main() {
 	readFile.Close()
 
 	var personData string
+	var validPassportCount int
 
 	for _, line := range fileTextLines {
 		personData = personData + " " + line
@@ -38,7 +40,16 @@ func main() {
 				}
 			}
 			fmt.Printf("Total KV Pairs: %d\n", kvCount)
+			if kvCount == 8 {
+				validPassportCount++
+				fmt.Println("VALID!")
+			} else if kvCount == 7 && !strings.Contains(personData, "cid:") {
+				validPassportCount++
+				fmt.Println("VALID!")
+			}
+			fmt.Println("")
 			personData = ""
 		}
 	}
+	fmt.Printf("Valid Passports: %d\n", validPassportCount)
 }
