@@ -29,9 +29,11 @@ func main() {
 	var personData string
 	var validPassportCount int
 
-	for _, line := range fileTextLines {
+	totalLines := len(fileTextLines)
+
+	for i, line := range fileTextLines {
 		personData = personData + " " + line
-		if line == "" {
+		if line == "" || i+1 == totalLines {
 			fmt.Println(personData)
 			kvCount := 0
 			for _, char := range personData {
