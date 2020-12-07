@@ -27,3 +27,28 @@ func TestParseBirthYear(t *testing.T) {
 		t.Errorf("abcd should fail")
 	}
 }
+
+func TestParseIssueYear(t *testing.T) {
+	// PASS
+	_, err := parseIssueYear("2010")
+	if err != nil {
+		t.Errorf("2010 should work")
+	}
+	_, err = parseIssueYear("2020")
+	if err != nil {
+		t.Errorf("2020 should work")
+	}
+	// FAILS
+	_, err = parseIssueYear("2009")
+	if err == nil {
+		t.Errorf("2009 should fail")
+	}
+	_, err = parseIssueYear("2021")
+	if err == nil {
+		t.Errorf("2021 should fail")
+	}
+	_, err = parseIssueYear("abcd")
+	if err == nil {
+		t.Errorf("abcd should fail")
+	}
+}

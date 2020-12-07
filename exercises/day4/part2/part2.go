@@ -25,6 +25,10 @@ func parseBirthYear(birthYearString string) (birthYear int, err error) {
 	return parseYear(birthYearString, 1920, 2002)
 }
 
+func parseIssueYear(issueYearString string) (issueYear int, err error) {
+	return parseYear(issueYearString, 2010, 2020)
+}
+
 func main() {
 	fmt.Println("Day 4 - Part 1")
 
