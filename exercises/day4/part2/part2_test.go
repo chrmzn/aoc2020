@@ -149,3 +149,25 @@ func TestParseHairColour(t *testing.T) {
 		t.Errorf("123abp should fail")
 	}
 }
+
+func TestParseEyeColour(t *testing.T) {
+	_, err := parseEyeColour("amb")
+	if err != nil {
+		t.Errorf("amb should parse")
+	}
+	_, err = parseEyeColour("wat")
+	if err == nil {
+		t.Errorf("wat should fail")
+	}
+}
+
+func TestParsePassportNumber(t *testing.T) {
+	_, err := parsePassportNumber("000000001")
+	if err != nil {
+		t.Errorf("000000001 should parse")
+	}
+	_, err = parsePassportNumber("0123456789")
+	if err == nil {
+		t.Errorf("0123456789 should fail")
+	}
+}

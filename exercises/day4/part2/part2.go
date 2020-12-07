@@ -86,6 +86,26 @@ func parseHairColour(hairColourString string) (colour string, err error) {
 	return result["colour"], nil
 }
 
+func parseEyeColour(eyeColourString string) (colour string, err error) {
+	for _, colour := range []string{"amb", "blu", "brn", "gry", "grn", "hzl", "oth"} {
+		if eyeColourString == colour {
+			return colour, nil
+		}
+	}
+	return "", fmt.Errorf("Colour %s is not part of the accepted list", eyeColourString)
+}
+
+func parsePassportNumber(passportNumberString string) (passportNumber string, err error) {
+	match, err := regexp.MatchString(`^\d{9}$`, passportNumberString)
+	if err != nil {
+		return "", err
+	}
+	if match {
+		return passportNumberString, nil
+	}
+	return "", fmt.Errorf("Failed to match %s", passportNumberString)
+}
+
 func main() {
 	fmt.Println("Day 4 - Part 1")
 
