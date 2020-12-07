@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
 	"regexp"
@@ -10,16 +9,20 @@ import (
 	"strings"
 )
 
-func parseBirthYear(birthYearString string) (birthYear int, err error) {
-	_, err = regexp.MatchString(`\d{4}`, birthYearString)
+func parseYear(yearString string, minValue, maxValue int) (year int, err error) {
+	_, err = regexp.MatchString(`\d{4}`, yearString)
 	if err != nil {
-		return birthYear, err
+		return year, err
 	}
-	birthYear, err = strconv.Atoi(birthYearString)
-	if 1920 <= birthYear && birthYear <= 2002 {
-		return birthYear, nil
+	year, err = strconv.Atoi(yearString)
+	if minValue <= year && year <= maxValue {
+		return year, nil
 	}
-	return birthYear, errors.New("Birth year needs to be between 1920 and 2002")
+	return year, fmt.Errorf("year needs to be between %d and %d", minValue, maxValue)
+}
+
+func parseBirthYear(birthYearString string) (birthYear int, err error) {
+	return parseYear(birthYearString, 1920, 2002)
 }
 
 func main() {
