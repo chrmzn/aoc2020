@@ -52,3 +52,60 @@ func TestParseIssueYear(t *testing.T) {
 		t.Errorf("abcd should fail")
 	}
 }
+
+func TestParseExpYear(t *testing.T) {
+	// PASS
+	_, err := parseExpYear("2020")
+	if err != nil {
+		t.Errorf("2020 should work")
+	}
+	_, err = parseExpYear("2030")
+	if err != nil {
+		t.Errorf("2030 should work")
+	}
+	// FAILS
+	_, err = parseExpYear("2019")
+	if err == nil {
+		t.Errorf("2019 should fail")
+	}
+	_, err = parseExpYear("2031")
+	if err == nil {
+		t.Errorf("2031 should fail")
+	}
+	_, err = parseExpYear("abcd")
+	if err == nil {
+		t.Errorf("abcd should fail")
+	}
+}
+
+func TestParseHeightStringCm(t *testing.T) {
+	height, scale, err := parseHeightString("160cm")
+	if err != nil {
+		t.Errorf("Could not parse 160cm")
+	}
+	if height != 160 {
+		t.Errorf("Height should be 160, got %d", height)
+	}
+	if scale != "cm" {
+		t.Errorf("Failed to get cm scale for 160cm")
+	}
+	_, _, err = parseHeightString("149cm")
+	if err == nil {
+		t.Errorf("149cm is outside lower bound")
+	}
+	_, _, err = parseHeightString("194cm")
+	if err == nil {
+		t.Errorf("194cm is outside upper bound")
+	}
+}
+
+func TestParseHeightStringFail(t *testing.T) {
+	_, _, err := parseHeightString("160")
+	if err == nil {
+		t.Errorf("160 should fail")
+	}
+	_, _, err = parseHeightString("160")
+	if err == nil {
+		t.Errorf("160 should fail")
+	}
+}
