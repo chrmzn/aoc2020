@@ -149,64 +149,78 @@ func main() {
 			}
 			fmt.Println(personMap)
 			if personMap["byr"] == "" {
+				personData = ""
 				continue
 			} else {
 				_, err := parseBirthYear(personMap["byr"])
 				if err != nil {
+					personData = ""
 					continue
 				}
 			}
 
 			if personMap["iyr"] == "" {
+				personData = ""
 				continue
 			} else {
 				_, err := parseIssueYear(personMap["iyr"])
 				if err != nil {
+					personData = ""
 					continue
 				}
 			}
 
 			if personMap["eyr"] == "" {
+				personData = ""
 				continue
 			} else {
 				_, err := parseExpYear(personMap["eyr"])
 				if err != nil {
+					personData = ""
 					continue
 				}
 			}
 
 			if personMap["hgt"] == "" {
+				personData = ""
 				continue
 			} else {
 				_, _, err := parseHeightString(personMap["hgt"])
 				if err != nil {
+					personData = ""
 					continue
 				}
 			}
 
 			if personMap["hcl"] == "" {
+				personData = ""
 				continue
 			} else {
 				_, err := parseHairColour(personMap["hcl"])
 				if err != nil {
+					personData = ""
 					continue
 				}
 			}
 
 			if personMap["ecl"] == "" {
+				personData = ""
 				continue
 			} else {
 				_, err := parseEyeColour(personMap["ecl"])
 				if err != nil {
+					personData = ""
 					continue
 				}
 			}
 
 			if personMap["pid"] == "" {
+				personData = ""
 				continue
 			} else {
 				_, err := parsePassportNumber(personMap["pid"])
 				if err != nil {
+					personData = ""
 					continue
 				}
 			}
