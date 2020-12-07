@@ -99,6 +99,27 @@ func TestParseHeightStringCm(t *testing.T) {
 	}
 }
 
+func TestParseHeightStringIn(t *testing.T) {
+	height, scale, err := parseHeightString("65in")
+	if err != nil {
+		t.Errorf("Could not parse 65in")
+	}
+	if height != 65 {
+		t.Errorf("Height should be 65, got %d", height)
+	}
+	if scale != "in" {
+		t.Errorf("Failed to get in scale for 65in, got %s", scale)
+	}
+	_, _, err = parseHeightString("58in")
+	if err == nil {
+		t.Errorf("58in is outside lower bound")
+	}
+	_, _, err = parseHeightString("77in")
+	if err == nil {
+		t.Errorf("77in is outside upper bound")
+	}
+}
+
 func TestParseHeightStringFail(t *testing.T) {
 	_, _, err := parseHeightString("160")
 	if err == nil {
