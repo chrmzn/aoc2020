@@ -29,6 +29,45 @@ func parseIssueYear(issueYearString string) (issueYear int, err error) {
 	return parseYear(issueYearString, 2010, 2020)
 }
 
+func parseExpYear(expYearString string) (expYear int, err error) {
+	return parseYear(expYearString, 2020, 2030)
+}
+
+func parseHeightString(heightString string) (height int, scale string, err error) {
+	r, err := regexp.Compile(`^((?P<cm>\d{3})cm|(?P<in>\d{2})in)`)
+	if err != nil {
+		return height, scale, err
+	}
+	match := r.FindStringSubmatch(heightString)
+	if match == nil {
+		return height, scale, fmt.Errorf("Failed to match height regex for %s", heightString)
+	}
+	result := make(map[string]string)
+	for i, name := range r.SubexpNames() {
+		if i != 0 && name != "" {
+			result[name] = match[i]
+		}
+	}
+	if result["cm"] != "" {
+		height, err = strconv.Atoi(result["cm"])
+		if err != nil {
+			return height, scale, err
+		}
+		if 150 <= height && height <= 193 {
+			return height, "cm", nil
+		}
+	} else if result["in"] != "" {
+		height, err = strconv.Atoi(result["in"])
+		if err != nil {
+			return height, scale, err
+		}
+		if 59 <= height && height <= 76 {
+			return height, "in", nil
+		}
+	}
+	return height, scale, fmt.Errorf("Not a valid height scale, please use in/cm")
+}
+
 func main() {
 	fmt.Println("Day 4 - Part 1")
 
