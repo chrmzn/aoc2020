@@ -10,9 +10,12 @@ import (
 )
 
 func parseYear(yearString string, minValue, maxValue int) (year int, err error) {
-	_, err = regexp.MatchString(`\d{4}`, yearString)
+	match, err := regexp.MatchString(`^\d{4}$`, yearString)
 	if err != nil {
 		return year, err
+	}
+	if !match {
+		return year, fmt.Errorf("failed to match year")
 	}
 	year, err = strconv.Atoi(yearString)
 	if minValue <= year && year <= maxValue {
@@ -133,15 +136,83 @@ func main() {
 	for i, line := range fileTextLines {
 		personData = personData + " " + line
 		if line == "" || i+1 == totalLines {
+			fmt.Println("")
 			personData = strings.TrimSpace(personData)
 			fmt.Println(personData)
 			personFields := strings.Split(personData, " ")
 
+			personMap := make(map[string]string)
 			for _, field := range personFields {
 				fields := strings.Split(field, ":")
 				fieldName, fieldValue := fields[0], fields[1]
-				fmt.Printf("%s:%s\n", fieldName, fieldValue)
+				personMap[fieldName] = fieldValue
 			}
+			fmt.Println(personMap)
+			if personMap["byr"] == "" {
+				continue
+			} else {
+				_, err := parseBirthYear(personMap["byr"])
+				if err != nil {
+					continue
+				}
+			}
+
+			if personMap["iyr"] == "" {
+				continue
+			} else {
+				_, err := parseIssueYear(personMap["iyr"])
+				if err != nil {
+					continue
+				}
+			}
+
+			if personMap["eyr"] == "" {
+				continue
+			} else {
+				_, err := parseExpYear(personMap["eyr"])
+				if err != nil {
+					continue
+				}
+			}
+
+			if personMap["hgt"] == "" {
+				continue
+			} else {
+				_, _, err := parseHeightString(personMap["hgt"])
+				if err != nil {
+					continue
+				}
+			}
+
+			if personMap["hcl"] == "" {
+				continue
+			} else {
+				_, err := parseHairColour(personMap["hcl"])
+				if err != nil {
+					continue
+				}
+			}
+
+			if personMap["ecl"] == "" {
+				continue
+			} else {
+				_, err := parseEyeColour(personMap["ecl"])
+				if err != nil {
+					continue
+				}
+			}
+
+			if personMap["pid"] == "" {
+				continue
+			} else {
+				_, err := parsePassportNumber(personMap["pid"])
+				if err != nil {
+					continue
+				}
+			}
+
+			fmt.Println("Valid Passport!!")
+			validPassportCount++
 			personData = ""
 		}
 	}
