@@ -130,3 +130,22 @@ func TestParseHeightStringFail(t *testing.T) {
 		t.Errorf("160 should fail")
 	}
 }
+
+func TestParseHairColour(t *testing.T) {
+	_, err := parseHairColour("#123abc")
+	if err != nil {
+		t.Errorf("#123abc should parse")
+	}
+	_, err = parseHairColour("#123abcff")
+	if err == nil {
+		t.Errorf("#123abcff should fail")
+	}
+	_, err = parseHairColour("#123abp")
+	if err == nil {
+		t.Errorf("#123abp should fail")
+	}
+	_, err = parseHairColour("123abp")
+	if err == nil {
+		t.Errorf("123abp should fail")
+	}
+}

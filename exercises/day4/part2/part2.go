@@ -68,6 +68,24 @@ func parseHeightString(heightString string) (height int, scale string, err error
 	return height, scale, fmt.Errorf("Not a valid height scale, please use in/cm")
 }
 
+func parseHairColour(hairColourString string) (colour string, err error) {
+	r, err := regexp.Compile(`^#(?P<colour>[0-9a-f]{6})$`)
+	if err != nil {
+		return colour, err
+	}
+	match := r.FindStringSubmatch(hairColourString)
+	if match == nil {
+		return colour, fmt.Errorf("Failed to match colour regex for %s", hairColourString)
+	}
+	result := make(map[string]string)
+	for i, name := range r.SubexpNames() {
+		if i != 0 && name != "" {
+			result[name] = match[i]
+		}
+	}
+	return result["colour"], nil
+}
+
 func main() {
 	fmt.Println("Day 4 - Part 1")
 
